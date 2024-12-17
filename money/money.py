@@ -290,7 +290,23 @@ class Money(object):
         else:
             raise NotImplementedError("formatting requires Babel "
                                       "(https://pypi.python.org/pypi/Babel)")
-    
+
+    def split(self, parts: int) -> list["Money"]:
+        """Return a list of n Money objects, ensuring that the sum of the parts equals the original amount.
+
+        >>> Money('10.00', "USD").split(3)
+        [Money(3.34, "USD"), Money(3.33, "USD"), Money(3.33, "USD")]
+        """
+        if parts <= 1:
+            raise ValueError("parts must be greater than 1")
+
+        precision = abs(self.amount.as_tuple().exponent)
+        base_amount = round(self / parts, precision)
+        last_parts = [base_amount for _ in range(parts - 1)]
+        first_part = self - sum(last_parts)
+
+        return [round(first_part, precision)] + last_parts
+
     @classmethod
     def loads(cls, s):
         """Parse from a string representation (repr)"""

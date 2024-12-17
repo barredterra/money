@@ -51,3 +51,7 @@ class TestMoneyLeftmostTypePrevails(mixins.LeftmostTypePrevailsMixin, unittest.T
         self.other_money = self.MoneySubclass('2.99', 'XXX')
 
 
+class TestMoneySplit(unittest.TestCase):
+    def test_split(self):
+        self.assertEqual(Money('10.00', 'USD').split(3), [Money('3.34', 'USD'), Money('3.33', 'USD'), Money('3.33', 'USD')])
+        self.assertEqual(Money('9.9999999999', 'USD'), sum(Money('9.9999999999', 'USD').split(7)))

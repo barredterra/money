@@ -87,6 +87,14 @@ More formally, with *AAA* and *BBB* being different currencies:
 
 Arithmetic operations with floats are not directly supported. If you need to operate with floats, you must first convert the float to a Decimal, or the Money object to a float (i.e. float(m)). Please be aware of the `issues and limitations of floating point arithmetics <https://docs.python.org/3/tutorial/floatingpoint.html>`_.
 
+You can easily split a Money object into a number of parts, ensuring that the sum of the parts equals the original amount:
+
+.. code:: python
+
+    >>> Money('10.00', 'USD').split(3)
+    [Money(3.34, "USD"), Money(3.33, "USD"), Money(3.33, "USD")]
+
+Note that the precision of the split amounts will be the same as the original amount.
 
 Currency presets
 ----------------
